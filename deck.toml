@@ -1,0 +1,19 @@
+[package]
+name = "@deckyard/git"
+version = "0.1.0"
+description = "Work with git repositories through the git command line: status, commit, log, diff, branches, tags, remotes, with hardened defaults"
+license = "LGPL-3.0-only"
+authors = ["mplx <mplx@jennifer-lang.dev>"]
+# The deck runs the `git` program (through `env`), so it needs `exec`. No
+# `net` of its own: git reaches remotes itself. No `sql`.
+capabilities = ["exec"]
+keywords = ["git", "vcs", "version-control", "repository", "commit", "diff", "branch"]
+
+[package.urls]
+deck = "https://raw.githubusercontent.com/deckyard/deck-git/main/deck.toml"
+homepage = "https://github.com/deckyard/deck-git"
+manual = "https://deckyard.github.io/deck-git/"
+
+# Only the default binary: `jennifer-tiny` has no `exec` capability.
+[engines]
+jennifer = ">=0.25.0"
