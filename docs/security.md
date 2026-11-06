@@ -32,15 +32,14 @@ users.
 - **The environment cannot redirect a command.** `GIT_DIR`, `GIT_WORK_TREE`,
   `GIT_INDEX_FILE`, `GIT_OBJECT_DIRECTORY` and the other variables that beat
   `-C` are removed with `env -u` on every command.
-- **git does not look above the repository.** `open` takes the top level;
+- **git does not look above the repository.** `open` takes the top level:
   `GIT_CEILING_DIRECTORIES` stops a subdirectory of some other repository
-  from being taken for it.
+  from being taken for it, and `open` compares the top level git reports
+  with the one asked for.
 - **Programs from the repository do not run.** Hooks are off
   (`core.hooksPath=/dev/null`) unless `withHooks` turns them on, the
   fsmonitor is off, and diffs and blame run no external diff or text
   conversion, which a `.gitattributes` in the repository could select.
-- **`open` checks the top level.** git does not look above the directory,
-  and `open` compares the top level git reports with the one asked for.
 - **Credentials stay out of error messages.** `https://user:token@...` is
   written `https://***@...` in the deck's messages; git strips it from its
   own.
