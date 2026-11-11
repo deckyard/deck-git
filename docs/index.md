@@ -47,6 +47,6 @@ Every failure is `Error{kind: "git"}`, its message naming the operation:
 
 ## Requirements
 
-Jennifer 0.25.0 or newer, default `jennifer` binary: the deck needs the
+Jennifer 0.26.0 or newer, default `jennifer` binary: the deck needs the
 `exec` capability, which `jennifer-tiny` lacks. git 2.25 or newer
 (`switch`, `restore`, `--end-of-options`) and `env` on the `PATH`.
