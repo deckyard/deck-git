@@ -10,14 +10,15 @@ Every export of `@deckyard/git`. Guides are listed in
 import "@deckyard/git/" as git;
 ```
 
-Every failure is `Error{kind: "git"}`. A `c` argument is a `Config`, an
+Every failure is `Error{kind: "git"}`, except a command killed at its timeout
+(kind `"timeout"`) and output past 16 MiB (kind `"limit"`). A `c` argument is a `Config`, an
 `r` a `Repo`. Revisions and paths that may be "" say so in the guides.
 
 ## Constants
 
 | Constant | Value | Meaning |
 |---|---|---|
-| `ERROR_KIND` | `"git"` | the `kind` of every error the deck throws |
+| `ERROR_KIND` | `"git"` | the `kind` of the deck's own errors |
 
 ## Types
 

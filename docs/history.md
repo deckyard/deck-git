@@ -54,6 +54,6 @@ external diff programs never run.
 | `describe(repo, rev)` | `v1.2-3-gabc1234`, from the nearest tag |
 | `archive(repo, rev, file)` | the files as `.zip`, `.tar` or `.tar.gz` |
 
-A captured output stops at 16 MiB, and the call then fails rather than
+A captured output stops at 16 MiB, and the call then fails (kind `"limit"`) rather than
 return part of it: `readBytes` and `archive` go through files and have no
 such limit, and `log` takes a `limit`.

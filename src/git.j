@@ -18,7 +18,9 @@
  * unlisted transports are refused, and the environment variables that point
  * git at another repository are removed. Hooks and the fsmonitor are off,
  * prompts never wait, and every command is killed when it runs too long.
- * Every failure is `Error{kind: "git"}`.
+ * Every failure is `Error{kind: "git"}`, except a command killed at its
+ * timeout (kind `"timeout"`) and output past the 16 MiB capture cap (kind
+ * `"limit"`).
  *
  * | topic | covers |
  * | --- | --- |

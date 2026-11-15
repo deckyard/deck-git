@@ -428,7 +428,8 @@ func blobName(rev as string, path as string) {
  * @param rev {string} the revision; "" for `HEAD`
  * @param path {string} the path from the top level
  * @return {string} the contents
- * @throws {Error} kind `"git"` when the file is not there, or is over 16 MiB
+ * @throws {Error} kind `"git"` when the file is not there; kind `"limit"`
+ *   when it is over 16 MiB
  */
 export func readFile(r as Repo, rev as string, path as string) {
     return gitOut($r, ["cat-file", "blob", blobName($rev, $path)], "read " + $path);

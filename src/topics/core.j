@@ -6,7 +6,7 @@
 # the checks on names, revisions and URLs, and running `git`. Spliced into
 # git.j via include.
 
-/** The `kind` of every error the deck throws. */
+/** The `kind` of the deck's own errors (a timeout is `"timeout"`, the output cap `"limit"`). */
 export def const ERROR_KIND as string init "git";
 
 /**
@@ -76,6 +76,18 @@ def const TRUNCATED as string init "\n[output truncated at 16 MiB]";
  */
 func fail(message as string) {
     throw Error{kind: ERROR_KIND, message: "git: " + $message};
+}
+
+/**
+ * Raise a deck error of a generic kind: `"timeout"` for a command killed at
+ * its deadline, `"limit"` for output past the capture cap.
+ *
+ * @param kind {string} the generic kind
+ * @param message {string} what went wrong
+ * @throws {Error} always, with the given `kind`
+ */
+func failAs(kind as string, message as string) {
+    throw Error{kind: $kind, message: "git: " + $message};
 }
 
 /**
@@ -233,7 +245,8 @@ func commandLine(c as Config, dir as string, args as list of string) {
  * @param what {string} the operation, for error messages
  * @param stdoutFile {string} a file for the standard output; "" to capture it
  * @return {os.Result} the exit code and output
- * @throws {Error} kind `"git"` when git cannot start or runs too long
+ * @throws {Error} kind `"git"` when git cannot start; kind `"timeout"` when it
+ *   runs past `timeoutMs` and is killed
  */
 func execute(c as Config, argv as list of string, what as string, stdoutFile as string) {
     def opts as map of string to string init {};
@@ -248,7 +261,7 @@ func execute(c as Config, argv as list of string, what as string, stdoutFile as 
             os.kill($p);
             os.wait($p);
             os.release($p);
-            fail($what + ": killed after " + convert.toString($c.timeoutMs) + " ms");
+            failAs("timeout", $what + ": killed after " + convert.toString($c.timeoutMs) + " ms");
         }
         time.sleep(time.fromMilliseconds($pause));
         if ($pause < 20) {
@@ -283,15 +296,15 @@ func start(c as Config, argv as list of string, opts as map of string to string)
  * @param r {os.Result} the result
  * @param what {string} the operation, for the error message
  * @return {os.Result} the result, when the exit code is 0
- * @throws {Error} kind `"git"` with git's explanation otherwise, or when the
- *   output passed 16 MiB
+ * @throws {Error} kind `"git"` with git's explanation otherwise; kind
+ *   `"limit"` when the output passed 16 MiB
  */
 func checked(r as os.Result, what as string) {
     if ($r.exitCode != 0) {
         fail($what + ": " + firstError($r.stderr));
     }
     if (strings.endsWith($r.stdout, TRUNCATED)) {
-        fail($what + ": the output passed 16 MiB; narrow the query");
+        failAs("limit", $what + ": the output passed 16 MiB; narrow the query");
     }
     return $r;
 }

@@ -33,14 +33,15 @@ and literal: `*.txt` names a file called `*.txt`, it is not a pattern.
 
 ## Errors
 
-Every failure is `Error{kind: "git"}`, its message naming the operation:
+Every failure is an `Error` whose message names the operation. Its kind is
+`"git"`, except for the two generic cases marked below:
 
 - a refused name, revision, path or URL, before anything runs:
   `git: not a valid branch name: "a..b"`;
 - git's own explanation, its `fatal:` or `error:` line:
   `git: switch nope: fatal: invalid reference: nope`;
-- a timeout: `git: fetch: killed after 120000 ms`;
-- output past 16 MiB: `git: log: the output passed 16 MiB; narrow the query`;
+- a timeout, kind `"timeout"`: `git: fetch: killed after 120000 ms`;
+- output past 16 MiB, kind `"limit"`: `git: log: the output passed 16 MiB; narrow the query`;
 - a missing program: `git: cannot run git (is git installed?)`.
 
 `merge` reports conflicts in its result instead of throwing.

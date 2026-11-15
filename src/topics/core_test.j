@@ -257,6 +257,19 @@ func testTheCommandLineIsHardened() {
     testing.assertEqual(lists.contains($hooked, "-C"), false);
 }
 
+# A command past its timeout is killed and raises kind "timeout". `sleep`
+# stands in for a git that hangs, so this runs without git too.
+func testACommandPastItsTimeoutIsKindTimeout() {
+    def c as Config init withTimeout(config(), 1000);
+    try {
+        execute($c, ["sleep", "5"], "sleep", "");
+        missed("a hanging command");
+    } catch (e) {
+        testing.assertEqual($e.kind, "timeout");
+        testing.assertEqual($e.message, "git: sleep: killed after 1000 ms");
+    }
+}
+
 func testErrorsAndOutput() {
     def err as string init "hint: something\nfatal: not a git repository\nmore\n";
     testing.assertEqual(firstError($err), "fatal: not a git repository");
@@ -266,7 +279,8 @@ func testErrorsAndOutput() {
         checked(os.Result{exitCode: 0, stdout: "x" + TRUNCATED, stderr: ""}, "log");
         missed("truncated output passed");
     } catch (e) {
-        testing.assertTrue(strings.contains($e.message, "passed 16 MiB"));
+        testing.assertEqual($e.kind, "limit");
+        testing.assertTrue(strings.contains($e.message, "git: log: the output passed 16 MiB"));
     }
     def z as string init convert.fromCodepoint(0);
     testing.assertEqual(nulFields("a" + $z + "b c" + $z), ["a", "b c"]);
