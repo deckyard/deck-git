@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: LGPL-3.0-only
 # SPDX-FileCopyrightText: Copyright (C) 2026 mplx <mplx@jennifer-lang.dev>
-# pragma-jennifer-version: >=0.26.0
+# pragma-jennifer-version: >=0.27.0
 
 # git - opening, creating and cloning repositories, the working tree's
 # status, staging, committing and stashing. Spliced into git.j via include.
@@ -191,7 +191,7 @@ func statusFrom(out as string) {
             $s.changes[] = changeFrom($f, 10, "conflict", "");
         } elseif (strings.startsWith($f, "? ")) {
             $s.changes[] = Change{
-                path: strings.substring($f, 2),
+                path: $f[2..],
                 origPath: "",
                 staged: ".",
                 unstaged: ".",
@@ -223,8 +223,8 @@ func statusHeader(s as Status, line as string) {
     } elseif ($key == "branch.upstream") {
         $s.upstream = $value;
     } elseif ($key == "branch.ab" and len($parts) >= 4) {
-        $s.ahead = toInt(strings.substring($value, 1));
-        $s.behind = toInt(strings.substring($parts[3], 1));
+        $s.ahead = toInt($value[1..]);
+        $s.behind = toInt($parts[3][1..]);
     }
     return $s;
 }
@@ -243,10 +243,10 @@ func changeFrom(line as string, skip as int, kind as string, orig as string) {
     def parts as list of string init strings.split($line, " ");
     def xy as string init $parts[1];
     return Change{
-        path: strings.join(lists.slice($parts, $skip), " "),
+        path: strings.join($parts[$skip..], " "),
         origPath: $orig,
-        staged: strings.substring($xy, 0, 1),
-        unstaged: strings.substring($xy, 1, 2),
+        staged: $xy[..1],
+        unstaged: $xy[1..2],
         kind: $kind
     };
 }

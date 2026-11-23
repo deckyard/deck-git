@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: LGPL-3.0-only
 # SPDX-FileCopyrightText: Copyright (C) 2026 mplx <mplx@jennifer-lang.dev>
-# pragma-jennifer-version: >=0.26.0
+# pragma-jennifer-version: >=0.27.0
 
 # git - white-box tests for the core topic, and the helpers the live tests
 # share. Spliced into git_test.j via include.
@@ -250,7 +250,7 @@ func testTheCommandLineIsHardened() {
         testing.assertTrue(lists.contains($argv, $setting));
     }
     testing.assertEqual(lists.contains($argv, "protocol.http.allow=always"), false);
-    testing.assertEqual(lists.slice($argv, len($argv) - 3), ["-C", "/srv/repo", "status"]);
+    testing.assertEqual($argv[len($argv) - 3..], ["-C", "/srv/repo", "status"]);
     def hooked as list of string init commandLine(withHooks(tcfg(), true), "", ["--version"]);
     testing.assertEqual(lists.contains($hooked, "core.hooksPath=/dev/null"), false);
     testing.assertTrue(lists.contains($hooked, "user.name=Test Bot"));

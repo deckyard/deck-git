@@ -32,13 +32,13 @@ def repo as git.Repo init git.open(git.config(), ".");
 def s as git.Status init git.status($repo);
 io.printf("%s, %d changed\n", $s.branch, len($s.changes));
 for (def c in git.log($repo, "", "", 5)) {
-    io.printf("%s %s\n", strings.substring($c.hash, 0, 8), $c.subject);
+    io.printf("%s %s\n", $c.hash[..8], $c.subject);
 }
 ```
 
 ## Requirements
 
-Jennifer 0.26.0 or newer and the default `jennifer` binary (the deck needs
+Jennifer 0.27.0 or newer and the default `jennifer` binary (the deck needs
 the `exec` capability); git 2.25 or newer and `env` on the `PATH`.
 
 ## Development

@@ -48,6 +48,6 @@ Every failure is an `Error` whose message names the operation. Its kind is
 
 ## Requirements
 
-Jennifer 0.26.0 or newer, default `jennifer` binary: the deck needs the
+Jennifer 0.27.0 or newer, default `jennifer` binary: the deck needs the
 `exec` capability, which `jennifer-tiny` lacks. git 2.25 or newer
 (`switch`, `restore`, `--end-of-options`) and `env` on the `PATH`.

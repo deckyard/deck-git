@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: LGPL-3.0-only
 # SPDX-FileCopyrightText: Copyright (C) 2026 mplx <mplx@jennifer-lang.dev>
-# pragma-jennifer-version: >=0.26.0
+# pragma-jennifer-version: >=0.27.0
 # pragma-jennifer-capability: exec
 
 /**
@@ -35,7 +35,7 @@
  *   def repo as git.Repo init git.open(git.config(), ".");
  *   def s as git.Status init git.status($repo);
  *   for (def c in git.log($repo, "", "", 5)) {
- *       io.printf("%s %s\n", strings.substring($c.hash, 0, 8), $c.subject);
+ *       io.printf("%s %s\n", $c.hash[..8], $c.subject);
  *   }
  */
 use convert;

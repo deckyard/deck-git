@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: LGPL-3.0-only
 # SPDX-FileCopyrightText: Copyright (C) 2026 mplx <mplx@jennifer-lang.dev>
-# pragma-jennifer-version: >=0.26.0
+# pragma-jennifer-version: >=0.27.0
 
 # git - reading history: commits, diffs, blame, file contents at a revision,
 # trees and archives. Spliced into git.j via include.
@@ -304,7 +304,7 @@ export func changes(r as Repo, base as string, target as string) {
     def f as list of string init nulFields($out);
     def i as int init 0;
     while ($i + 1 < len($f)) {
-        def letter as string init strings.substring($f[$i], 0, 1);
+        def letter as string init $f[$i][..1];
         if ($letter == "R" or $letter == "C") {
             $all[] = FileChange{status: $letter, path: $f[$i + 2], oldPath: $f[$i + 1]};
             $i = $i + 3;
@@ -349,7 +349,7 @@ func blameFrom(out as string) {
     def cur as BlameLine;
     for (def l in strings.split($out, "\n")) {
         if (strings.startsWith($l, "\t")) {
-            $cur.text = strings.substring($l, 1);
+            $cur.text = $l[1..];
             if (maps.has($seen, $cur.hash)) {
                 def known as BlameLine init $seen[$cur.hash];
                 $cur.author = $known.author;
@@ -365,8 +365,8 @@ func blameFrom(out as string) {
         if ($sp < 0) {
             continue;
         }
-        def key as string init strings.substring($l, 0, $sp);
-        def rest as string init strings.substring($l, $sp + 1);
+        def key as string init $l[..$sp];
+        def rest as string init $l[$sp + 1..];
         if ($key == "author") {
             $cur.author = $rest;
         } elseif ($key == "author-mail") {
@@ -500,13 +500,13 @@ export func listTree(r as Repo, rev as string, dir as string, recursive as bool)
             continue;
         }
         def meta as list of string init [];
-        for (def m in strings.split(strings.substring($e, 0, $tab), " ")) {
+        for (def m in strings.split($e[..$tab], " ")) {
             if ($m != "") {
                 $meta[] = $m;
             }
         }
         $all[] = TreeEntry{
-            path: strings.substring($e, $tab + 1),
+            path: $e[$tab + 1..],
             type: $meta[1],
             mode: $meta[0],
             hash: $meta[2],

@@ -1,7 +1,7 @@
 #!/usr/bin/env -S jennifer run
 # SPDX-License-Identifier: LGPL-3.0-only
 # SPDX-FileCopyrightText: Copyright (C) 2026 mplx <mplx@jennifer-lang.dev>
-# pragma-jennifer-version: >=0.26.0
+# pragma-jennifer-version: >=0.27.0
 
 /**
  * summary example: the branch and its upstream, what changed, the latest
@@ -13,7 +13,6 @@
 
 use io;
 use os;
-use strings;
 
 import "../src/git.j" as git;
 
@@ -48,7 +47,7 @@ for (def ch in $s.changes) {
 }
 io.printf("\nlatest commits:\n");
 for (def cm in git.log($repo, "", "", 5)) {
-    io.printf("  %s %s (%s)\n", strings.substring($cm.hash, 0, 8), $cm.subject, $cm.author);
+    io.printf("  %s %s (%s)\n", $cm.hash[..8], $cm.subject, $cm.author);
 }
 def tags as list of git.Tag init git.tags($repo);
 if (len($tags) > 0) {

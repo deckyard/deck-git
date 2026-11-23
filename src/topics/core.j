@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: LGPL-3.0-only
 # SPDX-FileCopyrightText: Copyright (C) 2026 mplx <mplx@jennifer-lang.dev>
-# pragma-jennifer-version: >=0.26.0
+# pragma-jennifer-version: >=0.27.0
 
 # git - the configuration, the hardened command line every call starts with,
 # the checks on names, revisions and URLs, and running `git`. Spliced into
@@ -482,13 +482,13 @@ func redact(url as string) {
     if ($scheme < 0) {
         return $url;
     }
-    def rest as string init strings.substring($url, $scheme + 3);
+    def rest as string init $url[$scheme + 3..];
     def at as int init strings.indexOf($rest, "@");
     def slash as int init strings.indexOf($rest, "/");
     if ($at < 0 or ($slash >= 0 and $slash < $at)) {
         return $url;
     }
-    return strings.substring($url, 0, $scheme + 3) + "***" + strings.substring($rest, $at);
+    return $url[..$scheme + 3] + "***" + $rest[$at..];
 }
 
 /**
@@ -536,7 +536,7 @@ func nulFields(out as string) {
     }
     def parts as list of string init strings.split($out, convert.fromCodepoint(0));
     if ($parts[len($parts) - 1] == "") {
-        return lists.slice($parts, 0, len($parts) - 1);
+        return $parts[..len($parts) - 1];
     }
     return $parts;
 }

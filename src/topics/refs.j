@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: LGPL-3.0-only
 # SPDX-FileCopyrightText: Copyright (C) 2026 mplx <mplx@jennifer-lang.dev>
-# pragma-jennifer-version: >=0.26.0
+# pragma-jennifer-version: >=0.27.0
 
 # git - revisions, branches, tags, merging, and remotes: fetch, pull, push.
 # Spliced into git.j via include.
@@ -135,9 +135,9 @@ func branchesFrom(out as string) {
         };
         for (def part in strings.split($f[4], ", ")) {
             if (strings.startsWith($part, "ahead ")) {
-                $b.ahead = toInt(strings.substring($part, 6));
+                $b.ahead = toInt($part[6..]);
             } elseif (strings.startsWith($part, "behind ")) {
-                $b.behind = toInt(strings.substring($part, 7));
+                $b.behind = toInt($part[7..]);
             }
         }
         $all[] = $b;
@@ -432,8 +432,8 @@ export func remotes(r as Repo) {
         if ($tab < 0 or $sp < $tab) {
             continue;
         }
-        def name as string init strings.substring($l, 0, $tab);
-        def url as string init strings.substring($l, $tab + 1, $sp);
+        def name as string init $l[..$tab];
+        def url as string init $l[$tab + 1..$sp];
         if (not maps.has($index, $name)) {
             $index[$name] = len($all);
             $all[] = Remote{name: $name, url: "", pushUrl: ""};
@@ -619,7 +619,7 @@ export func lsRemote(c as Config, url as string) {
         if ($tab < 0 or strings.endsWith($l, "^\{\}")) {
             continue;
         }
-        $all[] = Ref{name: strings.substring($l, $tab + 1), hash: strings.substring($l, 0, $tab)};
+        $all[] = Ref{name: $l[$tab + 1..], hash: $l[..$tab]};
     }
     return $all;
 }

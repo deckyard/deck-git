@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: LGPL-3.0-only
 # SPDX-FileCopyrightText: Copyright (C) 2026 mplx <mplx@jennifer-lang.dev>
-# pragma-jennifer-version: >=0.26.0
+# pragma-jennifer-version: >=0.27.0
 
 # git - white-box tests for the history topic. Spliced into git_test.j via
 # include.
@@ -59,7 +59,7 @@ func testHistory() {
     def r as Repo init seeded($dir);
     def first as string init revParse($r, "HEAD");
     put($r, "a.txt", "one\ntwo\n");
-    put($r, "img.bin", strings.repeat(convert.fromCodepoint(0), 3));
+    put($r, "img.bin", strings.replicate(convert.fromCodepoint(0), 3));
     addAll($r);
     commit($r, "second\n\nadds a line");
     def all as list of Commit init log($r, "", "", 0);
@@ -92,9 +92,7 @@ func testHistory() {
     testing.assertEqual([$tree[0].path, $tree[0].type, $tree[0].mode], ["a.txt", "blob", "100644"]);
     testing.assertEqual($tree[1].size, 3);
     createTag($r, "v1.0", $first, "");
-    testing.assertEqual(
-        describe($r, ""),
-        "v1.0-1-g" + strings.substring(revParse($r, "HEAD"), 0, 7));
+    testing.assertEqual(describe($r, ""), "v1.0-1-g" + revParse($r, "HEAD")[..7]);
     archive($r, "v1.0", $dir + "/v1.zip");
     testing.assertTrue(fs.stat($dir + "/v1.zip").size > 0);
     fs.removeAll($dir);
