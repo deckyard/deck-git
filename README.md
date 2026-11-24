@@ -4,7 +4,7 @@
 [![Documentation](https://img.shields.io/badge/docs-github%20pages-blue)](https://deckyard.github.io/deck-git/)
 [![release](https://img.shields.io/github/v/release/deckyard/deck-git)](https://github.com/deckyard/deck-git/releases/latest)
 
-Git repositories for [Jennifer](https://jennifer-lang.dev/) through the
+Git™ repositories for [Jennifer](https://jennifer-lang.dev/) through the
 `git` command line: open, create and clone repositories; status, staging,
 commits and stashes; log, diffs, blame and files at any revision; branches,
 tags and merges; fetch, pull and push. Results are typed structs parsed from
@@ -53,9 +53,14 @@ The tests that run git use throwaway repositories in the temp directory and
 no network. They return early where git is not installed, as in CI's
 container; run the suite on a machine with git before a release.
 
+## Trademarks
+
+Git™ is a trademark of Software Freedom Conservancy, Inc. Other product and
+company names may be trademarks of their respective owners. They are used
+only to identify the products this deck works with. This deck is an
+independent project, not affiliated with, sponsored or endorsed by Software
+Freedom Conservancy, Inc.
+
 ## Licence
 
 LGPL-3.0-only, see [LICENSE](LICENSE). Copyright (C) 2026 mplx &lt;mplx@jennifer-lang.dev&gt;.
-
-Git is a trademark of the Software Freedom Conservancy. This deck is not
-affiliated with or endorsed by it.

@@ -3,7 +3,7 @@
 
 # @deckyard/git
 
-Git repositories through the `git` command line. The deck builds a checked
+Git™ repositories through the `git` command line. The deck builds a checked
 argument list, runs git, and parses its machine-readable output (`-z`,
 porcelain formats) into structs, so file names with spaces or line breaks
 come through intact.
@@ -51,3 +51,11 @@ Every failure is an `Error` whose message names the operation. Its kind is
 Jennifer 0.27.0 or newer, default `jennifer` binary: the deck needs the
 `exec` capability, which `jennifer-tiny` lacks. git 2.25 or newer
 (`switch`, `restore`, `--end-of-options`) and `env` on the `PATH`.
+
+## Trademarks
+
+Git™ is a trademark of Software Freedom Conservancy, Inc. Other product and
+company names may be trademarks of their respective owners. They are used
+only to identify the products this deck works with. This deck is an
+independent project, not affiliated with, sponsored or endorsed by Software
+Freedom Conservancy, Inc.

@@ -62,7 +62,7 @@ users.
   next command that needs the index then fails until it is removed.
 - **A URL can reach any host the machine can.** Cloning a user's
   `https://` or `ssh://` URL connects to internal hosts as readily as to
-  GitHub; filter hosts before calling `clone` or `lsRemote` if that matters.
+  GitHub™; filter hosts before calling `clone` or `lsRemote` if that matters.
 - **`run` is unchecked.** It passes your arguments as they are, after the
   hardened prefix. Never build them from user input.
 - **Credentials are git's.** The deck never sees them: use an ssh agent,
