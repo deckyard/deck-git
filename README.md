@@ -38,7 +38,7 @@ for (def c in git.log($repo, "", "", 5)) {
 
 ## Requirements
 
-Jennifer 0.27.0 or newer and the default `jennifer` binary (the deck needs
+Jennifer 0.28.0 or newer and the default `jennifer` binary (the deck needs
 the `exec` capability); git 2.25 or newer and `env` on the `PATH`.
 
 ## Development

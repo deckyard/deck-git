@@ -132,7 +132,7 @@ git strips them from its own.
 
 ## Dependencies on the interpreter
 
-- Floor `>=0.27.0` (for `strings.replicate`), the default binary only
+- Floor `>=0.28.0` (the calls 0.29.0 removes are replaced by their 0.28.0 forms) (for `strings.replicate`), the default binary only
   (`exec` through `os.spawn`, `os.poll` and `os.kill`).
 - The interpreter's 16 MiB capture cap on a child's output, marked so the
   deck can detect it.

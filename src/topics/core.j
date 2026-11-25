@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: LGPL-3.0-only
 # SPDX-FileCopyrightText: Copyright (C) 2026 mplx <mplx@jennifer-lang.dev>
-# pragma-jennifer-version: >=0.27.0
+# pragma-jennifer-version: >=0.28.0
 
 # git - the configuration, the hardened command line every call starts with,
 # the checks on names, revisions and URLs, and running `git`. Spliced into
@@ -249,10 +249,8 @@ func commandLine(c as Config, dir as string, args as list of string) {
  *   runs past `timeoutMs` and is killed
  */
 func execute(c as Config, argv as list of string, what as string, stdoutFile as string) {
-    def opts as map of string to string init {};
-    if ($stdoutFile != "") {
-        $opts["stdout"] = $stdoutFile;
-    }
+    def opts as os.SpawnOptions;
+    $opts.stdout = $stdoutFile;
     def p as os.Process init start($c, $argv, $opts);
     def started as time.Time init time.now();
     def pause as int init 1;
@@ -278,13 +276,13 @@ func execute(c as Config, argv as list of string, what as string, stdoutFile as 
  *
  * @param c {Config} the configuration
  * @param argv {list of string} the command line
- * @param opts {map of string to string} `os.spawn`'s options
+ * @param opts {os.SpawnOptions} the output redirections
  * @return {os.Process} the running process
  * @throws {Error} kind `"git"` when it cannot start
  */
-func start(c as Config, argv as list of string, opts as map of string to string) {
+func start(c as Config, argv as list of string, opts as os.SpawnOptions) {
     try {
-        return os.spawn($argv, $opts);
+        return os.spawnWith($argv, $opts);
     } catch (e) {
         fail("cannot run " + $c.binary + " (is git installed?): " + $e.message);
     }
